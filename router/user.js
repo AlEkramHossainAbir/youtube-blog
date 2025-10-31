@@ -16,7 +16,7 @@ router.post("/signin", async (req, res) => {
     return res.render("signin", { error: "All fields are required." });
   }
   const user = User.matchPassword(email, password)
-  console.logf(user)
+  console.log(user)
 
   res.redirect("/");
 });
@@ -38,8 +38,6 @@ router.post("/signup", async (req, res) => {
   if (!firstName || !lastName || !email || !password) {
     return res.render("signup", { error: "All fields are required." });
   }
-  console.log(email, password);
-
   await User.create({ firstName, lastName, email, password });
 
   res.redirect("/");

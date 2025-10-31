@@ -65,7 +65,6 @@ userSchema.static('matchPassword',async function(email,password){
   
   const salt = user.salt;
   const hashPassword = user.password
-  console.log(email,salt,hashPassword)
 
   const userProvidedHash = createHmac("sha256", salt)
   .update(password)
@@ -75,7 +74,7 @@ userSchema.static('matchPassword',async function(email,password){
     throw new Error("Invalid password");
   }
 
-  return {...user, password: undefined, salt: undefined}
+  return user
 })
 
 const User = mongoose.model("user", userSchema);
