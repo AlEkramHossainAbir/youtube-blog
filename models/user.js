@@ -59,12 +59,13 @@ userSchema.pre("save", function (next) {
   next();
 });
 
-userSchema.static('matchPassword', function(email,password){
-  const user = User.findOne({email})
+userSchema.static('matchPassword',async function(email,password){
+  const user = await this.findOne({email})
   if(!user) throw new Error("User not found");
-
+  
   const salt = user.salt;
   const hashPassword = user.password
+  console.log(email,salt,hashPassword)
 
   const userProvidedHash = createHmac("sha256", salt)
   .update(password)
