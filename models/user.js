@@ -59,6 +59,24 @@ userSchema.pre("save", function (next) {
   next();
 });
 
+userSchema.static('matchPassword', function(email,password){
+  const user = User.findOne({email})
+  if(!user) throw new Error("User not found");
+
+  const salt = user.salt;
+  const hashPassword = user.password
+
+  const userProvidedHash = createHmac("sha256", salt)
+  .update(password)
+  .digest("hex");
+
+  if(userProvidedHash !== hashPassword){
+    throw new Error("Invalid password");
+  }
+
+  return {...user, password: undefined, salt: undefined}
+})
+
 const User = mongoose.model("user", userSchema);
 
 module.exports = User;

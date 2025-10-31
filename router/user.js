@@ -6,8 +6,19 @@ router.get("/signin", (req, res) => {
   res.render("signin");
 });
 
-router.post("/signin", (req, res) => {
+router.post("/signin", async (req, res) => {
+  if(!req.body)
+    {
+      res.redirect("/user/signin")
+    }
   const { email, password } = req.body;
+  if (!email || !password) {
+    return res.render("signin", { error: "All fields are required." });
+  }
+  const user = User.matchPassword(email, password)
+  console.logf(user)
+
+  res.redirect("/");
 });
 
 router.get("/signup", (req, res) => {
