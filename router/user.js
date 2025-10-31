@@ -34,4 +34,9 @@ router.post("/signup", async (req, res) => {
   res.redirect("/");
 });
 
+router.get("/",async (req,res)=>{
+ const allUser = await User.find({})
+  res.json(allUser)
+})
+
 module.exports = router;
